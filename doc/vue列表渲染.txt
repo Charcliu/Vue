@@ -1,0 +1,82 @@
+用 v-for 把一个数组对应为一组元素
+我们用 v-for 指令根据一组数组的选项列表进行渲染。v-for 指令需要使用 item in items 形式的特殊语法，items 是源数据数组并且 item 是数组元素迭代的别名。
+
+<ul id="example-1">
+  <li v-for="item in items">
+    {{ item.message }}
+  </li>
+</ul>
+var example1 = new Vue({
+  el: '#example-1',
+  data: {
+    items: [
+      { message: 'Foo' },
+      { message: 'Bar' }
+    ]
+  }
+})
+
+在 v-for 块中，我们拥有对父作用域属性的完全访问权限。v-for 还支持一个可选的第二个参数为当前项的索引。
+
+<ul id="example-2">
+  <li v-for="(item, index) in items">
+    {{ parentMessage }} - {{ index }} - {{ item.message }}
+  </li>
+</ul>
+var example2 = new Vue({
+  el: '#example-2',
+  data: {
+    parentMessage: 'Parent',
+    items: [
+      { message: 'Foo' },
+      { message: 'Bar' }
+    ]
+  }
+})
+
+一个对象的 v-for
+你也可以用 v-for 通过一个对象的属性来迭代。
+
+<ul id="v-for-object" class="demo">
+  <li v-for="value in object">
+    {{ value }}
+  </li>
+</ul>
+new Vue({
+  el: '#v-for-object',
+  data: {
+    object: {
+      firstName: 'John',
+      lastName: 'Doe',
+      age: 30
+    }
+  }
+})
+
+
+数组更新检测
+变异方法
+Vue 包含一组观察数组的变异方法，所以它们也将会触发视图更新。这些方法如下：
+
+push()
+pop()
+shift()
+unshift()
+splice()
+sort()
+reverse()
+
+
+对象更改检测注意事项
+还是由于 JavaScript 的限制，Vue 不能检测对象属性的添加或删除：
+
+var vm = new Vue({
+  data: {
+    a: 1
+  }
+})
+// `vm.a` 现在是响应式的
+
+vm.b = 2
+// `vm.b` 不是响应式的
+对于已经创建的实例，Vue 不能动态添加根级别的响应式属性。但是，可以使用 Vue.set(object, key, value) 方法向嵌套对象添加响应式属性

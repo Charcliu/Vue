@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My first Vue app</title>
+    </head>
+    <body>
+    	<div id = "v-for-object">
+	        <div v-for="(value, key, index) in object" :title = "index" :key="index">
+			  {{ index }}. {{ key }}: {{ value }}
+			</div>
+		</div>
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+          el: '#v-for-object',
+          data: {
+            object: {	
+              firstName: 'John',
+              lastName: 'Doe',
+              age: 30
+            }
+          }
+        })
+    </script>
+</html>
