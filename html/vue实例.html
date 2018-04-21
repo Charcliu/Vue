@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My first Vue app</title>
+    </head>
+    <body>
+        <div id = "app">
+          <p>{{fullName}}</p>
+          <p>{{foo}}</p>
+          <p>{{reverseFoo}}</p>
+          <p>{{reverseFooFn()}}</p>
+          <p>{{now}}</p>
+          <p>{{nowFn()}}</p>
+          <button v-on:click = "changeFoo()">Change it</button>
+          <p>Using mustaches: {{ rawHtml }}</p>
+          <p>Using v-html directive: <span v-html="rawHtml"></span></p>
+          <button v-bind:disabled="isButtonDisabled">Button</button>
+          <div>{{ number + 1 }}</div>
+        </div>
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var obj = {
+            foo : "bar",
+            rawHtml : "<span style = 'color : red'>This is Red</span>",
+            isButtonDisabled : true,
+            number : 1,
+            firstName : "Fluently",
+            lastName : "DonBad"
+        }
+        /*Object.freeze(obj);*/
+        var app = new Vue({
+          el: '#app',
+          data: obj,
+          methods :{
+            changeFoo : function(){
+                this.foo = "baz";
+            },
+            reverseFooFn : function(){
+                return this.foo.split("").reverse().join("");
+            },
+            nowFn: function () {
+                return new Date().toLocaleString()
+            }
+          },
+          beforeCreate : function(){
+            console.log(this);
+          },
+          created: function () {
+            // `this` 指向 vm 实例
+            console.log('foo is: ' + this.foo);
+          },
+          computed : {
+            reverseFoo : function(){
+                return this.foo.split("").reverse().join("");
+            },
+            now: function () {
+                return new Date().toLocaleString()
+            },
+            fullName : {
+                get : function(){
+                    return this.firstName + " " + this.lastName;
+                },
+                set : function(newValue){
+                    this.firstName = newValue.split(" ")[0];
+                    this.lastName = newValue.split(" ")[1];
+                }
+            }
+          }
+          // 不能使用箭头函数，箭头函数没有this，this总是指向父级上下文
+          /*created: () => console.log(this.foo)*/
+        }) 
+    </script>
+</html>
