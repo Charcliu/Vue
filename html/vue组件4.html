@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My first Vue app</title>
+    </head>
+    <body>
+        <div id="message-event-example" class="demo">
+            <div>{{bar}}</div>
+            <comp :foo="bar" @update:foo="val => bar = val"></comp>
+        </div>
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        Vue.component('comp', {
+          props : ["foo"],
+          template: `<div>
+            <button v-on:click="changefoo">{{msg}}</button>
+          </div>`,
+          data : function(){
+             return {
+                msg : this.foo
+             }
+          },
+          methods : {
+             changefoo : function(){
+                this.msg = "Wangfeifei";
+                this.$emit('update:foo', this.msg)
+             }
+          }
+        })
+
+        new Vue({
+          el: '#message-event-example',
+          data: {
+            bar: "liuchang"
+          }
+        })
+    </script>
+</html>

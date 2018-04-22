@@ -63,3 +63,120 @@ Vue.component('child', {
   // 同样也可以在 vm 实例中通过 this.message 来使用
   template: '<span>{{ message }}</span>'
 })
+
+单向数据流
+Prop 是单向绑定的：当父组件的属性变化时，将传导给子组件，但是反过来不会。这是为了防止子组件无意间修改了父组件的状态，来避免应用的数据流变得难以理解。
+
+另外，每次父组件更新时，子组件的所有 prop 都会更新为最新值。这意味着你不应该在子组件内部改变 prop。如果你这么做了，Vue 会在控制台给出警告。
+
+在两种情况下，我们很容易忍不住想去修改 prop 中数据：
+
+Prop 作为初始值传入后，子组件想把它当作局部数据来用；
+
+Prop 作为原始数据传入，由子组件处理成其它数据输出。
+
+对这两种情况，正确的应对方式是：
+
+定义一个局部变量，并用 prop 的值初始化它：
+
+props: ['initialCounter'],
+data: function () {
+  return { counter: this.initialCounter }
+}
+定义一个计算属性，处理 prop 的值并返回：
+
+props: ['size'],
+computed: {
+  normalizedSize: function () {
+    return this.size.trim().toLowerCase()
+  }
+}
+
+Prop 验证
+我们可以为组件的 prop 指定验证规则。如果传入的数据不符合要求，Vue 会发出警告。这对于开发给他人使用的组件非常有用。
+
+要指定验证规则，需要用对象的形式来定义 prop，而不能用字符串数组：
+
+Vue.component('example', {
+  props: {
+    // 基础类型检测 (`null` 指允许任何类型)
+    propA: Number,
+    // 可能是多种类型
+    propB: [String, Number],
+    // 必传且是字符串
+    propC: {
+      type: String,
+      required: true
+    },
+    // 数值且有默认值
+    propD: {
+      type: Number,
+      default: 100
+    },
+    // 数组/对象的默认值应当由一个工厂函数返回
+    propE: {
+      type: Object,
+      default: function () {
+        return { message: 'hello' }
+      }
+    },
+    // 自定义验证函数
+    propF: {
+      validator: function (value) {
+        return value > 10
+      }
+    }
+  }
+})
+type 可以是下面原生构造器：
+
+String
+Number
+Boolean
+Function
+Object
+Array
+Symbol
+type 也可以是一个自定义构造器函数，使用 instanceof 检测。
+
+当 prop 验证失败，Vue 会抛出警告 (如果使用的是开发版本)。注意 prop 会在组件实例创建之前进行校验，所以在 default 或 validator 函数里，诸如 data、computed 或 methods 等实例属性还无法使用。
+
+非 Prop 特性
+所谓非 prop 特性，就是指它可以直接传入组件，而不需要定义相应的 prop。
+
+尽管为组件定义明确的 prop 是推荐的传参方式，组件的作者却并不总能预见到组件被使用的场景。所以，组件可以接收任意传入的特性，这些特性都会被添加到组件的根元素上。
+<div id = "parent_two">
+    <child-component type = "password" class = "A"></child-component>
+</div>
+var parent_two = new Vue({
+    el : "#parent_two",
+    components : {
+        "child-component" : {
+            template : '<input type = "text" class = "b">'
+        }
+    }
+})
+对于多数特性来说，传递给组件的值会覆盖组件本身设定的值。即例如传递 type="password" 将会覆盖 type="date" 且有可能破坏该组件！所幸我们对待 class 和 style 特性会更聪明一些，这两个特性的值都会做合并 (merge) 操作，让最终生成的值为：a b。
+
+使用 v-on 绑定自定义事件
+每个 Vue 实例都实现了事件接口，即：
+
+使用 $on(eventName) 监听事件
+使用 $emit(eventName, optionalPayload) 触发事件
+
+给组件绑定原生事件
+有时候，你可能想在某个组件的根元素上监听一个原生事件。可以使用 v-on 的修饰符 .native
+
+.sync 修饰符
+
+<comp :foo="bar" @update:foo="val => bar = val"></comp>
+当子组件需要更新 foo 的值时，它需要显式地触发一个更新事件：
+
+this.$emit('update:foo', newValue)
+
+使用自定义事件的表单输入组件
+自定义事件可以用来创建自定义的表单输入组件，使用 v-model 来进行数据双向绑定
+
+父组件 ===> 子组件  1.props
+子组件 ===> 父组件  1.使用 $on(eventName) 监听事件                     2. .sync 修饰符   3.v-model 
+				     使用 $emit(eventName, optionalPayload) 触发事件

@@ -15,6 +15,10 @@
             <input v-model = "msg.text">
             <child-component :message = "msg"></child-component>
         </div>
+
+        <div id = "parent_two">
+            <child-component type = "password" class = "A"></child-component>
+        </div>
     </body>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script>
@@ -56,9 +60,28 @@
             },
             components : {
                 'child-component': {
-                    props : ['message'],
-                    template : '<button :title = "message.title">{{message.text}}</button>'
+                    props : {
+                        message : {
+                            type : Object,
+                            require : true
+                        }
+                    },
+                    template : '<button :title = "message.title">{{upperMsg}}</button>',
+                    computed : {
+                        upperMsg : function(){
+                            return this.message.text.toUpperCase(); 
+                        }
+                    }
                 }   
+            }
+        })
+
+        var parent_two = new Vue({
+            el : "#parent_two",
+            components : {
+                "child-component" : {
+                    template : '<input type = "text" class = "b">'
+                }
             }
         })
     </script>

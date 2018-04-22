@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My first Vue app</title>
+    </head>
+    <body>
+        <div id="message-event-example" class="demo">
+          <p v-for="msg in messages">{{ msg }}</p>
+          <button-message v-on:message="handleMessage"></button-message>
+          <my-component v-on:click.native="doTheThing"></my-component>
+        </div>
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        Vue.component('button-message', {
+          template: `<div>
+            <input type="text" v-model="message" />
+            <button v-on:click="handleSendMessage">Send</button>
+          </div>`,
+          data: function () {
+            return {
+              message: 'test message'
+            }
+          },
+          methods: {
+            handleSendMessage: function () {
+              this.$emit('message', { message: this.message })
+            }
+          }
+        })
+
+        Vue.component('my-component', {
+          template: `<div>myComponent</div>`
+        })
+
+        new Vue({
+          el: '#message-event-example',
+          data: {
+            messages: []
+          },
+          methods: {
+            handleMessage: function (payload) {
+              this.messages.push(payload.message)
+            },
+            doTheThing : function(){
+                console.log('doTheThing');
+            }
+          }
+        })
+    </script>
+</html>
