@@ -1,0 +1,18 @@
+var app = new Vue({
+	el : ...
+	data : {
+		...
+	},
+	methods : {
+
+	},
+	computed : {
+
+	},
+	created : function(){
+
+	},
+	watch : {
+
+	}
+})

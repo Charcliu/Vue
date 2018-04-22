@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My first Vue app</title>
+    </head>
+    <body>
+    	<div id= "myFirstVue">
+            <div>
+                <input type = "text" :placeholder="placeholderText" @keyup.enter = "addNewTodo" v-model = "newTodoText"/>
+            </div>
+            <div>
+                <ul>
+                    <todo-items v-for = "(item, index) in todos" 
+                        :title = "item.title"
+                        @remove = "todos.splice(index, 1)"></todo-items>
+                </ul>
+            </div>
+        </div>
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        Vue.component("todo-items",{
+            template : '<li>{{title}}<button @click = "$emit(\'remove\')">x</button></li>',
+            props : ['title']
+        })
+        var app = new Vue({
+            el : "#myFirstVue",
+            data : {
+                placeholderText : "Add a todo",
+                newTodoText: "",
+                todos: [
+                      {
+                        id: 1,
+                        title: 'Do the dishes',
+                      },
+                      {
+                        id: 2,
+                        title: 'Take out the trash',
+                      },
+                      {
+                        id: 3,
+                        title: 'Mow the lawn'
+                      }
+                ],
+                nextId : 4
+            },
+            methods : {
+                addNewTodo : function(){
+                   this.todos.push({
+                        id : this.nextId++,
+                        title : this.newTodoText
+                   })
+                   this.newTodoText = ""
+                }
+            }
+        })
+    </script>
+</html>

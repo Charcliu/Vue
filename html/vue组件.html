@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My first Vue app</title>
+    </head>
+    <body>
+        <div id = "app">
+            <my-component></my-component>
+            <add-component></add-component>
+            <add-component></add-component>
+            <add-component></add-component>
+        </div>
+
+        <div id = "parent">
+            <input v-model = "msg.text">
+            <child-component :message = "msg"></child-component>
+        </div>
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        
+        Vue.component('my-component', {
+          template: '<span>{{ message }}</span>',
+          data: function() {
+              return {
+                    message : "Hi"
+              }
+          }
+        })
+        var obj = {
+            count : 0
+        }
+        var app = new Vue({
+            el : "#app",
+            components: {
+                // <my-component> 将只在父组件模板中可用
+                'add-component': {
+                    template : '<button @click = "count++">{{count}}</button>',
+                    data : function(){
+                        //return obj
+                        return {
+                            count : 0
+                        }
+                    }
+                }   
+            }
+        })
+
+        var parent = new Vue({
+            el : "#parent",
+            data : {
+                msg : {
+                    text : "Hello Vue",
+                    title : "Good"
+                }
+            },
+            components : {
+                'child-component': {
+                    props : ['message'],
+                    template : '<button :title = "message.title">{{message.text}}</button>'
+                }   
+            }
+        })
+    </script>
+</html>

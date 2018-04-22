@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My first Vue app</title>
+    </head>
+    <body>
+        <div id="example-2">
+          <!-- `greet` 是在下面定义的方法名 -->
+          <button v-on:click="greet('Hi', $event)">Greet</button>
+          <input type="checkbox" id="checkbox" v-model="checked">
+          <label for="checkbox">{{ checked }}</label>
+          <input v-model.number="age" type="number">
+        </div>
+        
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+       var example_2 = new Vue({
+            el : "#example-2",
+            data : {
+                msg : "Vue",
+                checked : false,
+                age : 0
+            },
+            methods : {
+                greet : function(message, event){
+                    console.log("Hello" + this.msg);
+                    console.log(message);
+                    console.log(event);
+                }
+            }
+       })
+    </script>
+</html>
