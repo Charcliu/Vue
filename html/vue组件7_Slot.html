@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My first Vue app</title>
+    </head>
+    <body>
+        <div id = "app">
+          <h1>我是父组件的标题</h1>
+          <my-component>
+            <p slot = "footer">这是一些初始内容</p>
+            <p slot = "header">这是更多的初始内容</p>
+            <bar></bar>
+          </my-component>
+        </div>
+        <div class="parent">
+          <child>
+            <template slot-scope="props">
+              <span>hello from parent</span>
+              <span>{{ props.text }}</span>
+            </template>
+          </child>
+        </div>
+        <div id = "dynamic">
+            <button @click = "ChangeCurrentTemplate">ChangeCurrentTemplate</button>
+            <component :is = "templateName"></component>
+        </div>
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        Vue.component("test", {
+            template : `<div>Test components</div>`
+        })
+        Vue.component("child", {
+            template : `<div class="child">\
+                          <slot text="hello from child"></slot>\
+                        </div>`
+        })
+        Vue.component("templateA", {
+            template : `<div>A</div>`
+        })
+        Vue.component("templateB", {
+            template : `<div>B</div>`
+        })
+        var myComponent = {
+            template: `<div>\
+              <h2>我是子组件的标题</h2>\
+              <slot name = "header"> 只有在没有要分发的内容时才会显示。 </slot>\
+              <slot> 只有在没有要分发的内容时才会显示。 </slot>\
+              <slot name = "footer"> 只有在没有要分发的内容时才会显示。 </slot>\
+              <test></test>\
+            </div>`
+        }
+        // bar 组件
+        var bar = {
+            template: '<div><p>the count of bar</p></div>' 
+        }
+        var vm = new Vue({
+            el: '#app',
+            components: {
+                "my-component" : myComponent,
+                "bar" : bar
+            }
+        })
+        var app = new Vue({
+            el: '.parent'
+        })
+        var dynamic = new Vue({
+            el: '#dynamic',
+            data : {
+                templateName : "templateA"
+            },
+            methods : {
+                ChangeCurrentTemplate : function(){
+                    this.templateName == "templateA" ? this.templateName = "templateB" : this.templateName = "templateA";
+                }
+            }
+        })
+    </script>
+</html>
