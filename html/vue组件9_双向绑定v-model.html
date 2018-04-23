@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My first Vue app</title>
+    </head>
+    <body>
+        <div id = "app">
+            <div>{{info.name}}</div>
+            <div>{{sex}}</div>
+            <child :msg = "info" v-model = "sex" data-3d-date-picker class = "A" style = "color : red;"></child>
+        </div>
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        Vue.component("child", {
+            props : {
+                msg : {
+                    type : Object,
+                    required : true
+                },
+                value : {   
+                    type : String
+                }
+            },
+            data : function(){
+                return {
+                    sex : this.sexinfo
+                }
+            },
+            template : `<div class = "B" style = "background-color:yellow">\
+                            <div>Name : {{msg.name}}</div>\
+                            <div>Age : {{msg.age}}</div>\
+                            <input type = "text" v-model = "msg.name"/>\
+                            <div>Sex : {{value}}</div>\
+                            <input type = "text" v-model = "value" @input = "changeSexInfo"/>\
+                        </div>`,
+            methods : {
+                changeSexInfo : function(){
+                    this.$emit('input', value);
+                }
+            }
+
+        })
+        var app = new Vue({
+            el: '#app',
+            data: {
+                info: {
+                    name : "Fluently",
+                    age : 25
+                },
+                sex : "Man"
+            },
+            methods : {
+                listenSexFn : function(param){
+                    this.sex = param;
+                }
+            }
+        })
+    </script>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My first Vue app</title>
+    </head>
+    <body>
+        <div id = "app">
+            <div>{{info.name}}</div>
+            <div>{{sex}}</div>
+            <!-- //this.$emit("listensex", this.sex);  -->
+            <!-- <child :msg = "info" :sexinfo = "sex"vdata-3d-date-picker class = "A" style = "color : red;" @listensex = "listenSexFn"></child> --> 
+            <!-- //this.$emit("update:sexinfo", this.sex); -->
+            <child :msg = "info" :sexinfo = "sex" @update:sexinfo = "val => sex = val" data-3d-date-picker class = "A" style = "color : red;"></child>
+        </div>
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        Vue.component("child", {
+            props : {
+                msg : {
+                    type : Object,
+                    required : true
+                },
+                sexinfo : {   
+                    type : String
+                }
+            },
+            data : function(){
+                return {
+                    sex : this.sexinfo
+                }
+            },
+            template : `<div class = "B" style = "background-color:yellow">\
+                            <div>Name : {{msg.name}}</div>\
+                            <div>Age : {{msg.age}}</div>\
+                            <input type = "text" v-model = "msg.name"/>\
+                            <div>Sex : {{sex}}</div>\
+                            <input type = "text" v-model = "sex" @input = "changeSexInfo"/>\
+                        </div>`,
+            methods : {
+                changeSexInfo : function(){
+                    //this.$emit("listensex", this.sex); 
+                    this.$emit("update:sexinfo", this.sex); 
+                }
+            }
+
+        })
+        var app = new Vue({
+            el: '#app',
+            data: {
+                info: {
+                    name : "Fluently",
+                    age : 25
+                },
+                sex : "Man"
+            },
+            methods : {
+                listenSexFn : function(param){
+                    this.sex = param;
+                }
+            }
+        })
+    </script>
+</html>
