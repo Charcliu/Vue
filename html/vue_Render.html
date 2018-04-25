@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My first Vue app</title>
+    </head>
+    <body>
+        <div id = "app">
+           <fluently :level = "level1"></fluently>
+           <fluently :level = "level2"></fluently>
+           <fluently :level = "level3"></fluently>
+        </div>
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        Vue.component("fluently",{
+            props : ["level"],
+            /*template : `<div>
+                            <h1 v-if = "this.level == 1">{{this.level}}</h1>\
+                            <h2 v-if = "this.level == 2">{{this.level}}</h2>\
+                            <h3 v-if = "this.level == 3">{{this.level}}</h3>\
+                            <h4 v-if = "this.level == 4">{{this.level}}</h4>\
+                            <h5 v-if = "this.level == 5">{{this.level}}</h5>\
+                            <h6 v-if = "this.level == 5">{{this.level}}</h6>\
+                        </div>`*/
+            render: function (createElement) {
+                return createElement(
+                  'h' + this.level,   // tag name 标签名称
+                  this.level // 子组件中的阵列
+                )
+            }
+        })
+        var app = new Vue({
+            el: "#app",
+            data : {
+                level1 : 1,
+                level2 : 2,
+                level3 : 3
+            }
+        })
+    </script>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My first Vue app</title>
+    </head>
+    <body>
+        <div id = "app">
+           <p>{{message}} - {{foo}} - {{bar}}</p>
+        </div>
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        // 为自定义的选项 'myOption' 注入一个处理器。
+        Vue.mixin({
+          created: function () {
+            var myOption = this.$options.myOption
+            if (myOption) {
+              console.log(myOption)
+            }
+          }
+        })
+        var mixin = {
+          data: function () {
+            return {
+              message: 'hello',
+              foo: 'abc'
+            }
+          },
+          created: function () {
+            console.log('混入对象的钩子被调用')
+          },
+          methods: {
+                fooFn: function () {
+                  console.log('fooFn')
+                },
+                conflicting: function () {
+                  console.log('from mixin')
+                }
+          }
+        }
+        var app = new Vue({
+            el: "#app",
+            mixins: [mixin],
+            myOption: 'hello!',
+            data: function () {
+                return {
+                  message: 'goodbye',
+                  bar: 'def'
+                }
+            },
+            created: function () {
+                console.log('组件钩子被调用')
+            },
+            methods: {
+                barFn: function () {
+                  console.log('barFn')
+                },
+                conflicting: function () {
+                  console.log('from self')
+                }
+            }
+        })
+    </script>
+</html>
