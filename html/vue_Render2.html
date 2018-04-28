@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My first Vue app</title>
+    </head>
+    <body>
+        <div id = "app">
+           <anchored-heading :level="1">Hello world!</anchored-heading>
+           <vif :items = "person"></vif>
+        </div>
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var getChildrenTextContent = function (children) {
+          return children.map(function (node) {
+            return node.children
+              ? getChildrenTextContent(node.children)
+              : node.text
+          }).join('')
+        }
+
+        Vue.component('anchored-heading', {
+          render: function (createElement) {
+            // create kebabCase id
+            var headingId = getChildrenTextContent(this.$slots.default)
+              .toLowerCase()
+              .replace(/\W+/g, '-')
+              .replace(/(^\-|\-$)/g, '')
+
+            return createElement(
+              'h' + this.level,
+              [
+                createElement('a', {
+                  attrs: {
+                    name: headingId,
+                    href: '#' + headingId
+                  }
+                }, this.$slots.default)
+              ]
+            )
+          },
+          props: {
+            level: {
+              type: Number,
+              required: true
+            }
+          }
+        })
+        Vue.component('vif', {
+            props: ['items'],
+            render: function (createElement) {
+              if (this.items.length) {
+                return createElement('ul', this.items.map(function (item) {
+                  return createElement('li', item.name)
+                }))
+              } else {
+                return createElement('p', 'No items found.')
+              }
+            }
+        })
+        /* Vue.component('vmodel', {
+            props: ['value'],
+            render: function (createElement) {
+              var self = this
+              return createElement('input', {
+                domProps: {
+                  value: self.value
+                },
+                on: {
+                  input: function (event) {
+                    self.$emit('input', event.target.value)
+                  }
+                }
+              })
+            }
+        })*/
+        var app = new Vue({
+            el : "#app",
+            data : {
+                person : [
+                    {
+                        name : "Fluently"
+                    },
+                    {
+                        name : "DonBad"
+                    }
+                ],
+                info : ""
+            }
+        })
+    </script>
+</html>
