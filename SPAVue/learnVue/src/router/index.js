@@ -16,6 +16,7 @@ export default new Router({
       name: 'HelloWorld',
       component: HelloWorld
     },
+    // 嵌套路由
     {
       path: '/about',
       name: 'About',
