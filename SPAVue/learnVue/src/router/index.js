@@ -6,6 +6,7 @@ import Recruit from '@/components/Recruit'
 import ChildOne from '@/components/AboutChild/ChildOne'
 import ChildTwo from '@/components/AboutChild/ChildTwo'
 import User from '@/components/User'
+import TestVuex from '@/components/TestVuex'
 
 Vue.use(Router)
 
@@ -53,6 +54,11 @@ export default new Router({
           component: ChildTwo
         }
       ] 
-    }
+    },
+    {
+      path: '/testVuex',
+      name: 'TestVuex',
+      component: TestVuex
+    },
   ]
 })
