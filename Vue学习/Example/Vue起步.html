@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+    <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <div id="app">
+        <!-- 绑定到Dom文本 -->
+        <div>{{message}}</div>
+        <!-- v-model轻松实现双向绑定 -->
+        <input type="text" v-model="message">
+        <!-- 绑定click事件 -->
+        <button @click="reverseMessage">逆转消息</button>
+        <!-- 绑定到Dom属性 -->
+        <div :title="loadTime">
+            鼠标悬停几秒钟查看此处动态绑定的提示信息！
+        </div>
+        <!-- 绑定到Dom结构 -->
+        <p v-if="seen">You can look me</p>
+        <ul>
+            <li v-for="item in todos">{{item.text}}</li>
+            <todo-item v-for="item in todos" :todo="item"></todo-item>
+        </ul>
+
+    </div>
+    <script src="../plugin/vue.js"></script>
+    <script>
+        // 定义名为 todo-item 的新组件
+        var todoItem = Vue.component('todo-item', {
+            props: ['todo'],
+            template: '<li>{{todo.text}}</li>'
+        })
+
+        var app = new Vue({
+            el: "#app",
+            data: {
+                message: "Hello World",
+                loadTime: "页面加载于" + new Date().toLocaleString(),
+                seen: true,
+                todos: [{
+                        text: '学习 JavaScript'
+                    },
+                    {
+                        text: '学习 Vue'
+                    },
+                    {
+                        text: '整个牛项目'
+                    }
+                ]
+            },
+            methods: {
+                reverseMessage: function () {
+                    this.message = this.message.split('').reverse().join('');
+                }
+            },
+            components: {
+
+            }
+        })
+    </script>
+</body>
+
+</html>
