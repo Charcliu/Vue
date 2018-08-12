@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+    <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <div id="app">
+        <!-- 绑定到Dom文本 -->
+        <div>{{message}}</div>
+        <input type="text" v-model="message" />
+    </div>
+    <script src="../plugin/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            // template: "<h1>{{message +'这是在template中的'}}</h1>", //在vue配置项中修改的
+            // render: function (createElement) {
+            //     return createElement('h1', 'this is createElement')
+            // },
+            data: {
+                message: "Hello World"
+            },
+            beforeCreate: function () {
+                console.group("---beforeCreate---");
+                console.log("%c%s", "color:red", "el     : " + this.$el);
+                console.log(this.$el);
+                console.log("%c%s", "color:red", "data   : " + this.$data);
+                console.log("%c%s", "color:red", "message: " + this.message);
+            },
+            created: function () {
+                console.group("---created---");
+                console.log("%c%s", "color:red", "el     : " + this.$el);
+                console.log(this.$el);
+                console.log("%c%s", "color:red", "data   : " + this.$data);
+                console.log("%c%s", "color:red", "message: " + this.message);
+            },
+            beforeMount: function () {
+                console.group("---beforeMount---");
+                console.log("%c%s", "color:red", "el     : " + this.$el);
+                console.log(this.$el);
+                console.log("%c%s", "color:red", "data   : " + this.$data);
+                console.log("%c%s", "color:red", "message: " + this.message);
+            },
+            mounted: function () {
+                console.group("---mounted---");
+                console.log("%c%s", "color:red", "el     : " + this.$el);
+                console.log(this.$el);
+                console.log("%c%s", "color:red", "data   : " + this.$data);
+                console.log("%c%s", "color:red", "message: " + this.message);
+            },
+            beforeUpdate: function () {
+                console.group("---beforeUpdate---");
+                console.log("%c%s", "color:red", "el     : " + this.$el);
+                console.log(this.$el);
+                console.log("%c%s", "color:red", "data   : " + this.$data);
+                console.log("%c%s", "color:red", "message: " + this.message);
+            },
+            updated: function () {
+                console.group("---updated---");
+                console.log("%c%s", "color:red", "el     : " + this.$el);
+                console.log(this.$el);
+                console.log("%c%s", "color:red", "data   : " + this.$data);
+                console.log("%c%s", "color:red", "message: " + this.message);
+            },
+            beforeDestroy: function () {
+                console.group("---beforeDestroy---");
+                console.log("%c%s", "color:red", "el     : " + this.$el);
+                console.log(this.$el);
+                console.log("%c%s", "color:red", "data   : " + this.$data);
+                console.log("%c%s", "color:red", "message: " + this.message);
+            },
+            destroyed: function () {
+                console.group("---destroyed---");
+                console.log("%c%s", "color:red", "el     : " + this.$el);
+                console.log(this.$el);
+                console.log("%c%s", "color:red", "data   : " + this.$data);
+                console.log("%c%s", "color:red", "message: " + this.message);
+            }
+        })
+    </script>
+</body>
+
+</html>
