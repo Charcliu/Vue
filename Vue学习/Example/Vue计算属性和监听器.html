@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+    <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <div id="app">
+        <!-- 绑定到Dom文本 -->
+        <div>{{message}}</div>
+        <div>{{message.split('').reverse().join('')}}</div>
+        <!-- reverseMessage By computed -->
+        <div>{{reverseMessage}}</div>
+        <!-- reverseMessage By methods -->
+        <div>{{_reverseMessage()}}</div>
+        <input type="text" v-model="message">
+        <div>{{fullName}}</div>
+        <input type="text" v-model="firstName">
+        <input type="text" v-model="lastName">
+        <div>{{fullName2}}</div>
+        <!-- 计算属性的get set方法 -->
+        <div>{{fullName3}}</div>
+        <input type="text" v-model="fullName3">
+    </div>
+    <script src="../plugin/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                message: "Hello World",
+                firstName: "Foo",
+                lastName: "Bar",
+                fullName2: "",
+                firstName3: "Foo",
+                lastName3: "Bar"
+            },
+            computed: {
+                reverseMessage: function () {
+                    return this.message.split('').reverse().join('');
+                },
+                fullName: function () {
+                    return this.firstName + " " + this.lastName;
+                },
+                fullName3: {
+                    get: function () {
+                        return this.firstName3 + " " + this.lastName3;
+                    },
+                    set: function (val) {
+                        this.firstName3 = val.split(' ')[0];
+                        this.lastName3 = val.split(' ')[1];
+                    }
+                }
+            },
+            methods: {
+                _reverseMessage: function () {
+                    return this.message.split('').reverse().join('');
+                }
+            },
+            watch: {
+                firstName: function (val) {
+                    this.fullName2 = val + " " + this.lastName;
+                },
+                lastName: function (val) {
+                    this.fullName2 = this.firstName + " " + val;
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
