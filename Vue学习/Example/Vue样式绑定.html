@@ -13,6 +13,8 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="">
+    <!-- <link rel="stylesheet" href="./eleIndex.css"> -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <style>
         .styleRed {
             width: 100px;
@@ -24,6 +26,12 @@
             width: 100px;
             height: 100px;
             background-color: blue;
+        }
+
+        .child {
+            border: 2px solid orange;
+            margin: 20px 0px;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -39,13 +47,48 @@
         <input type="radio" name="style" id="blue" v-model="currentChoose" value="blue">
         <br>对象语法 --- 非内联定义
         <div v-bind:class="classObj"></div>
+        数组语法
+        <div v-bind:class="[currentStyle]"></div>
+        <select name="" id="" v-model="currentStyle">
+            <option value="styleRed">Red</option>
+            <option value="styleBlue">Blue</option>
+        </select>
+        <div v-bind:class="[currentStyle === 'styleRed' ? 'styleRed' : 'styleBlue']"></div>
+        <div v-bind:class="[{styleRed: showRed, styleBlue: !showRed}]"></div>
+        <my-component class="styleBlue"></my-component>
+        <my-component v-bind:class="{styleRed:showRed}"></my-component>
+        <div v-bind:style="{width : styleWidth + 'px', 'height' : styleHeight + 'px', 'background-color' : styleColor}"></div>
+        宽度：
+        <el-slider v-model="styleWidth" :max="1024"></el-slider>
+        高度：
+        <el-slider v-model="styleHeight" :max="1024"></el-slider>
+        自定义颜色：
+        <el-color-picker v-model="styleColor"></el-color-picker>
+        <div v-bind:style="styleObject"></div>
+        绑定内联样式，style数组格式：
+        <div v-bind:style="[styleObject, styleRadius]"></div>
+        <el-slider v-model="radius" :max="1024"></el-slider>
+        <div v-bind:style="{transform: 'rotate('+ rotate +'deg)',width: '100px',height: '100px', 'background-color': '#333'}"></div>
+        <el-slider v-model="rotate" :max="360"></el-slider>
     </div>
     <script src="../plugin/vue.js"></script>
+    <!-- <script src="./eleIndex.js"></script> -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <script>
+        Vue.component('my-component', {
+            template: '<div class="child"></div>'
+        });
+
         var app = new Vue({
             el: "#app",
             data: {
-                currentChoose: "red"
+                currentChoose: "red",
+                currentStyle: "styleBlue",
+                styleWidth: 100,
+                styleHeight: 100,
+                styleColor: '#111111',
+                radius: 0,
+                rotate: 0
             },
             computed: {
                 showRed: function () {
@@ -56,6 +99,16 @@
                         styleRed: this.showRed,
                         styleBlue: !this.showRed
                     }
+                },
+                styleObject: function () {
+                    return {
+                        'width': this.styleWidth + 'px',
+                        'height': this.styleHeight + 'px',
+                        'background-color': this.styleColor
+                    }
+                },
+                styleRadius: function () {
+                    return { 'border-radius': this.radius + 'px' }
                 }
             }
         })
