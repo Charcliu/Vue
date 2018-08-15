@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+    <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <div id="app">
+        <div v-if="current === 'Name'">Name</div>
+        <div v-else-if="current === 'Address'">Address</div>
+        <div v-else="current === 'Email'">Email</div>
+        <div v-show="current === 'Name'">Name</div>
+        <div v-show="current === 'Address'">Address</div>
+        <div v-show="current === 'Email'">Email</div>
+        Name: <input type="radio" name="test" id="" value="Name" v-model="current"> Address: <input type="radio" name="test"
+            id="" value="Address" v-model="current"> Email: <input type="radio" name="test" id="" value="Email" v-model="current">
+
+        <template v-if="show">
+            <div>A</div>
+            <div>B</div>
+            <div>C</div>
+        </template>
+        <div>切换多个元素：<input type="checkbox" name="" id="" v-model="show"></div>
+        复用input组件，只是placeholder改变：<br>
+        <template v-if="loginType === 'username'">
+            <label>Username</label>
+            <input placeholder="Enter your username">
+        </template>
+        <template v-else>
+            <label>Email</label>
+            <input placeholder="Enter your email address">
+        </template>
+        <div>
+            username：<input type="radio" name="a" id="" v-model="loginType" value="username"> email：
+            <input type="radio" name="a" id="" v-model="loginType" value="email">
+        </div>
+        不复用input组件：<br>
+        <template v-if="loginType === 'username'">
+            <label>Username</label>
+            <input placeholder="Enter your username" key="username">
+        </template>
+        <template v-else>
+            <label>Email</label>
+            <input placeholder="Enter your email address" key="email">
+        </template>
+        <div>
+            username：<input type="radio" name="b" id="" v-model="loginType" value="username"> email：
+            <input type="radio" name="b" id="" v-model="loginType" value="email">
+        </div>
+    </div>
+
+    <script src="../plugin/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                current: "Name",
+                show: false,
+                loginType: "username"
+            }
+        })
+    </script>
+</body>
+
+</html>
