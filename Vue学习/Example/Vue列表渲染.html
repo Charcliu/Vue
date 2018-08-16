@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+    <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <div id="app">
+        <div><input type="text" v-model="addItem"><button @click="addToDoList()">PUSH</button></div>
+        <ul>
+            <li v-for="(item,index) in todoList"> {{index}} - {{item.message}}<button @click="removeItem(index)">REMOVE</button></li>
+        </ul>
+        <h4>Computed TODOLIST</h4>
+        <ul>
+            <li v-for="(item,index) in filterToDoList"> {{index}} - {{item.message}}<button @click="removeItem(index)">REMOVE</button></li>
+        </ul>
+        <div v-for="(value,key,index) of studentObj">{{index}} . {{key}} : {{value}}</div>
+        <div><span v-for="item in 10">{{item}}</span></div>
+
+        <ul>
+            <li v-for="(item,index) in todoList" v-if="index / 2 === 0"> {{index}} - {{item.message}}</li>
+        </ul>
+        <ul>
+            <todo-list v-for="(item,index) in todoList" :key="index" :msg="item.message"></todo-list>
+        </ul>
+        <ul>
+            <li v-for="(item,index) in todoList" :key="index" :msg="item.message" is="todo-list"></li>
+        </ul>
+    </div>
+    <script src="../plugin/vue.js"></script>
+    <script>
+        Vue.component("todo-list", {
+            props: ['msg'],
+            template: "<li>{{msg}}</li>"
+        })
+        var app = new Vue({
+            el: "#app",
+            data: {
+                todoList: [
+                    {
+                        message: "CSS3"
+                    }, {
+                        message: "Vue"
+                    }, {
+                        message: "微信小程序"
+                    }
+                ],
+                studentObj: {
+                    name: "Liming",
+                    age: 24,
+                    sex: "female"
+                },
+                addItem: ""
+            },
+            methods: {
+                addToDoList: function () {
+                    this.todoList.push({
+                        message: this.addItem
+                    })
+                },
+                removeItem: function (index) {
+                    this.todoList.splice(index, 1)
+                }
+            },
+            computed: {
+                filterToDoList: function () {
+                    return this.todoList.filter(function (item) {
+                        return item.message.match(/[a-z]+/i);
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
