@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+    <style>
+        .out {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .inner {
+            width: 50px;
+            height: 50px;
+            background-color: green;
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <div id="app">
+        <!-- 事件修饰符pervent阻止事件默认行为 -->
+        <h4>事件修饰符pervent阻止事件默认行为</h4>
+        <a href="http://www.baidu.com" href="_blank" @click.prevent="notA">阻止事件的默认方法</a>
+        <!-- 事件修饰符stop阻止事件冒泡 -->
+        <h4>事件修饰符stop阻止事件冒泡</h4>
+        <div class="out" @click="outer">
+            <div class="inner" @click.stop="inner">阻止事件冒泡</div>
+        </div>
+        <br>
+        <!-- 事件修饰符capture添加事件监听器时使用事件捕获模式，即内部元素被触发，先被外部捕获处理，然后交由内部处理 -->
+        <h4>事件修饰符capture添加事件监听器时使用事件捕获模式，即内部元素被触发，先被外部捕获处理，然后交由内部处理</h4>
+        <div class="out" @click.capture="outerCapture">
+            <div class="inner" @click="innerCapture">事件捕获模式</div>
+        </div>
+        <br>
+        <!-- 事件修饰符self只有是自身触发的才会处理 -->
+        <h4>事件修饰符self只有是自身触发的才会处理</h4>
+        <div class="out" @click.self="outerSelf">
+            <div class="inner" @click="innerSelf">SELF</div>
+        </div>
+        <br>
+        <!-- 事件修饰符once只能触发一次事件 -->
+        <h4>事件修饰符once只能触发一次事件</h4>
+        <button @click.once="one">Once</button>
+        <!-- 滚动事件的默认行为 (即滚动行为) 将会立即触发 -->
+        <h4>滚动事件的默认行为 (即滚动行为) 将会立即触发</h4>
+        <div style="height:300px;overflow:auto" v-on:scroll.passive="onScroll">
+            <p>时间修饰符passive</p>
+            <p>时间修饰符passive</p>
+            <p>时间修饰符passive</p>
+            <p>时间修饰符passive</p>
+            <p>时间修饰符passive</p>
+            <p>时间修饰符passive</p>
+            <p>时间修饰符passive</p>
+            <p>时间修饰符passive</p>
+            <p>时间修饰符passive</p>
+            <p>时间修饰符passive</p>
+            <p>时间修饰符passive</p>
+            <p>时间修饰符passive</p>
+            <p>时间修饰符passive</p>
+            <p>时间修饰符passive</p>
+            <p>时间修饰符passive</p>
+            <p>时间修饰符passive</p>
+        </div>
+    </div>
+    <script src="../plugin/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+
+            },
+            methods: {
+                notA() {
+                    alert("阻止事件默认行为");
+                },
+                outer() {
+                    alert("outer");
+                },
+                inner() {
+                    alert("inner");
+                },
+                outerCapture() {
+                    alert("事件捕获");
+                },
+                innerCapture() {
+                    alert("innerCapture");
+                },
+                outerSelf() {
+                    alert("outerSelf");
+                },
+                innerSelf() {
+                    alert("innerSelf");
+                },
+                one() {
+                    alert("Only Once!");
+                },
+                onScroll() {
+                    console.log("scroll");
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

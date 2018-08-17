@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        body {
+            background-color: #fff;
+        }
+
+        .content {
+            width: 500px;
+            height: 200px;
+            position: fixed;
+            background-color: #fff;
+            top: 50%;
+            margin-top: -100px;
+            left: 50%;
+            margin-left: -250px;
+            border-radius: 10px;
+            box-shadow: 1px 1px 40px red;
+            z-index: 2;
+            display: none;
+        }
+
+        @keyframes fadein {
+            0% {
+                left: 118%;
+            }
+            50% {
+                left: 48%;
+            }
+            75% {
+                left: 52%
+            }
+            100% {
+                left: 50%;
+            }
+        }
+
+        .shadow {
+            position: fixed;
+            height: 100%;
+            width: 100%;
+            background-color: gray;
+            opacity: .7;
+            top: 0px;
+            left: 0px;
+            z-index: 1;
+        }
+
+        .enterAnimation {
+            animation: fadein .8s;
+            display: block;
+        }
+
+        .out {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .inner {
+            width: 50px;
+            height: 50px;
+            background-color: green;
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+    <div id="app">
+        <div id="shadow" class="shadow" v-show="showPop" @click="closeWindow"></div>
+        <div id="content" v-bind:class="{enterAnimation:showPop, content: true}" @click="closeWindow"></div>
+        <button @click="num++">CLICK{{num}}</button>
+        <button @click="popWindow">PopWindow</button>
+        <button @click="warn('msg',$event)">Warn</button>
+        <a href="http://www.baidu.com" href="_blank" @click="notA">阻止事件的默认方法</a>
+        <div class="out" @click="outer">
+            <div class="inner" @click="inner">阻止事件冒泡</div>
+        </div>
+    </div>
+    <script src="../plugin/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                num: 0,
+                showPop: false
+            },
+            methods: {
+                popWindow(event) {
+                    console.log(event);
+                    this.showPop = true;
+                },
+                closeWindow(event) {
+                    event.target.id === "shadow" ? this.showPop = false : "";
+                },
+                warn(msg, event) {
+                    console.log(msg, event)
+                },
+                notA(event) {
+                    // 阻止事件的默认方法
+                    event.preventDefault();
+                    alert("Not to execute default function");
+                },
+                outer(event) {
+                    alert("outer");
+                },
+                inner(event) {
+                    // 阻止事件冒泡
+                    event.stopPropagation();
+                    alert("inner");
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
