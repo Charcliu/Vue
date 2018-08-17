@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+    <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <div id="app">
+        keyEnter:<input @keyup.enter="keyEnter" /> <br> keyTab:
+        <input @keyup.tab="keyTab" /> <br> keyDelete:
+        <input @keyup.delete="keyDelete" /> <br> keyEsc:
+        <input @keyup.esc="keyEsc" /> <br> keySpace:
+        <input @keyup.space="keySpace" /> <br> keyUp:
+        <input @keyup.up="keyUp" /> <br> keyDown:
+        <input @keyup.down="keyDown" /> <br> keyLeft:
+        <input @keyup.left="keyLeft" /> <br> keyRight:
+        <input @keyup.right="keyRight" /> <br>
+        <button @click.ctrl="keyCtrl">keyCtrl</button>
+        <button @click.alt="keyAlt">keyAlt</button>
+        <button @click.shift="keyShift">keyShift</button>
+        <button @click.meta="keyMeta">keyMeta</button>
+
+        <!-- 即使 meta 或 Shift 被一同按下时也会触发 -->
+        <button @click.meta="anyClick">anyClick</button>
+
+        <!-- 有且只有 meta 被按下的时候才触发 -->
+        <button @click.meta.exact="onlyMetaClick">onlyMetaClick</button>
+
+        <!-- 没有任何系统修饰符被按下的时候才触发 -->
+        <button @click.exact="onlyClick">onlyClick</button>
+
+    </div>
+    <script src="../plugin/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {},
+            methods: {
+                onlyLeft() { },
+                anyClick() { alert("anyClick"); },
+                onlyMetaClick() { alert("onlyMetaClick"); },
+                onlyClick() { alert("onlyClick"); },
+                keyEnter() {
+                    alert("keyEnter");
+                },
+                keyTab() {
+                    alert("keyTab");
+                },
+                keyDelete() {
+                    alert("keyDelete");
+                },
+                keyEsc() {
+                    alert("keyEsc");
+                },
+                keyEnter() {
+                    alert("keyEnter");
+                },
+                keySpace() {
+                    alert("keySpace");
+                },
+                keyUp() {
+                    alert("keyUp");
+                },
+                keyDown() {
+                    alert("keyDown");
+                },
+                keyLeft() {
+                    alert("keyLeft");
+                },
+                keyRight() {
+                    alert("keyRight");
+                },
+                keyCtrl() {
+                    alert("keyCtrl");
+                },
+                keyAlt() {
+                    alert("keyAlt");
+                },
+                keyShift() {
+                    alert("keyShift");
+                },
+                keyMeta() {
+                    alert("keyMeta");
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
