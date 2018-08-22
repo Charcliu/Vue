@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+    <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <div id="app">
+        <h4>文本</h4>
+        <input type="text" v-model="msg_text" placeholder="edit me">
+        <p>{{msg_text}}</p>
+        <h4>多行文本</h4>
+        <span>MulMultiline Msg is: </span>
+        <p>{{msg_textArea}}</p>
+        <textarea v-model="msg_textArea"></textarea>
+        <h4>单个复选框</h4>
+        <input type="checkbox" v-model="singleCheckBox"><span>{{singleCheckBox}}</span>
+        <h4>多个复选框</h4>
+        Jack:<input type="checkbox" v-model="multiCheckBox" value="Jack"> John:
+        <input type="checkbox" v-model="multiCheckBox" value="John"> Merrty:
+        <input type="checkbox" v-model="multiCheckBox" value="Merrty">
+        <br>
+        <span v-for="item in multiCheckBox">{{item}} </span>
+        <h4>单选按钮</h4>
+        Man:<input type="radio" v-model="singleRadio" value="Man"> Mela:
+        <input type="radio" v-model="singleRadio" value="Mela">
+        <br>
+        <span>{{singleRadio}}</span>
+        <h4>选择框</h4>
+        <select v-model="selected">
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+        </select>
+        <br>
+        <span>{{selected}}</span>
+        <h4>多选框</h4>
+        <!-- 多选框需要添加样式width，不添加会失败，没搞懂为什么... -->
+        <select v-model="multiSelected" multiple style="width: 50px;">
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+        </select>
+        <br>
+        <span>{{multiSelected}}</span>
+        <h4>手动设置选中/未选中的值</h4>
+        <input type="checkbox" v-model="toggle" true-value="yes" false-value="no">
+        <br>
+        <span>{{toggle}}</span>
+        <h4>修饰符lazy</h4>
+        <!-- .lazy修饰符修改input触发为change触发 -->
+        <input type="text" v-model.lazy="msg_lazy">
+        <br>
+        <span>{{msg_lazy}}</span>
+        <h4>修饰符number</h4>
+        <!-- .number修饰符可以将返回结果自动转化为Number类型，否则就是String类型 -->
+        <input type="number" v-model.number="msg_number">
+        <br>
+        <span>{{msg_number}}</span>
+        <h4>修饰符trim</h4>
+        <!-- .trim过滤首尾空格符 -->
+        <input type="text" v-model.trim="msg_trim">
+        <br>
+        <span>{{msg_trim}}</span>
+    </div>
+    <script src="../plugin/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                msg_text: "",
+                msg_textArea: "",
+                singleCheckBox: false,
+                multiCheckBox: [],
+                singleRadio: "",
+                selected: "A",
+                multiSelected: [],
+                toggle: "",
+                msg_lazy: "",
+                msg_number: "",
+                msg_trim: ""
+            }
+        })
+    </script>
+</body>
+
+</html>
