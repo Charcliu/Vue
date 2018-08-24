@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+    <style>
+        .colorRed {
+            color: red;
+        }
+
+        .defineSize {
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <div id="app">
+        <!-- 注意在 JavaScript 中对象和数组是通过引用传入的，所以对于一个数组或对象类型的 prop 来说，在子组件中改变这个对象或数组本身将会影响到父组件的状态。 -->
+        <h1>Root</h1>
+        <div v-for="item in posts">
+            <span>{{item.title}}</span>
+            <span v-html="item.html"></span>
+        </div>
+        <h1>Component</h1>
+        <blog-list v-for="item in posts" :key="item.id" :post="item"></blog-list>
+        <!-- 测试单向数据流 -->
+        <h1>{{msg}}</h1>
+        <test-single-data-flow :msg="msg"></test-single-data-flow>
+        <test-prop-validate :prop-a="1" :prop-b="2" :prop-c="'3'" :prop-f="'success'"></test-prop-validate>
+        <test-not-prop class="colorRed" my-self-define></test-not-prop>
+    </div>
+    <script src="../plugin/vue.js"></script>
+    <script>   
+        // props传递进来的值，就变成了组件实例的一个属性。
+        Vue.component('blog-list', {
+            // props: ['post'],
+            props: {
+                post: Object
+            },
+            data() {
+                return {
+
+                }
+            },
+            // 每个组件必须只有一个根元素
+            template: `<div>
+                            <span>{{post.title}}</span>
+                            <input type="text" v-model="post.title"/>
+                            <span v-html="post.html"></span>
+                       </div>`
+        })
+        Vue.component('test-single-data-flow', {
+            props: ['msg'],
+            data() {
+                return {
+                    msg_data: this.msg
+                }
+            },
+            computed: {
+                msg_computed() {
+                    return this.msg + " Computed"
+                }
+            },
+            // 每个组件必须只有一个根元素
+            template: `<span><input type="text" v-model="msg"/>
+                        <input type="text" v-model="msg_data"/>
+                        <input type="text" v-model="msg_computed"/></span>`
+        })
+        Vue.component('test-prop-validate', {
+            props: {
+                // 基础的类型检查 (`null` 匹配任何类型)
+                propA: Number,
+                // 多个可能的类型
+                propB: [String, Number],
+                // 必填的字符串
+                propC: {
+                    type: String,
+                    required: true
+                },
+                // 带有默认值的数字
+                propD: {
+                    type: Number,
+                    default: 100
+                },
+                // 带有默认值的对象
+                propE: {
+                    type: Object,
+                    // 对象或数组默认值必须从一个工厂函数获取
+                    default: function () {
+                        return { message: 'hello' }
+                    }
+                },
+                // 自定义验证函数
+                propF: {
+                    validator: function (value) {
+                        // 这个值必须匹配下列字符串中的一个
+                        return ['success', 'warning', 'danger'].indexOf(value) !== -1
+                    }
+                }
+            },
+            data() {
+                return {
+
+                }
+            },
+            template: `
+                <div>
+                    {{propD}}{{propE}}
+                </div>
+                `
+        })
+        Vue.component('test-not-prop', {
+            // 禁用特性继承
+            // inheritAttrs: false,
+            data() {
+                return {
+
+                }
+            },
+            template: `<div style="font-weight:bold;" class="defineSize">Test Not Prop</div>`
+        })
+        var app = new Vue({
+            el: "#app",
+            data: {
+                posts: [
+                    { id: 1, title: 'My journey with Vue', html: '<span>1</span>' },
+                    { id: 2, title: 'Blogging with Vue', html: '<span>2</span>' },
+                    { id: 3, title: 'Why Vue is so fun', html: '<span>3</span>' }
+                ],
+                msg: 'Single_Data_Flow'
+            }
+        })
+    </script>
+</body>
+
+</html>
