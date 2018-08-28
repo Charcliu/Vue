@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+    <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <div id="app">{{msg}}|{{msg_mixins}}</div>
+    <script src="../plugin/vue.js"></script>
+    <script>
+        // 为自定义的选项 'myOption' 注入一个处理器。
+        Vue.mixin({
+            created: function () {
+                console.log('全局混入')
+            }
+        })
+        var mixin = {
+            data() {
+                return {
+                    msg_mixins: 'mixins',
+                    msg: '123'
+                }
+            },
+            created: function () {
+                console.log('混入对象的钩子被调用')
+            },
+            methods: {
+                foo: function () {
+                    console.log('foo')
+                },
+                conflicting: function () {
+                    console.log('from mixin')
+                }
+            }
+        }
+        var app = new Vue({
+            mixins: [mixin],
+            el: '#app',
+            data: {
+                msg: 'app'
+            },
+            created: function () {
+                console.log('组件钩子被调用')
+            },
+            methods: {
+                bar: function () {
+                    console.log('bar')
+                },
+                conflicting: function () {
+                    console.log('from self')
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
