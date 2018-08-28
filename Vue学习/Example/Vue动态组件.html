@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+    <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <div id="app">
+        <ul>
+            <li v-for='item in navs' :key='item.id' @click='changeComponent(item)'>
+                {{item.name}}
+            </li>
+        </ul>
+        <h1>不具有keep-alive</h1>
+        <component :is="currentComponent"></component>
+        <h1>具有keep-alive</h1>
+        <keep-alive>
+            <component :is="currentComponent"></component>
+        </keep-alive>
+    </div>
+    <script src="../plugin/vue.js"></script>
+    <script>
+        Vue.component('capax', {
+            data() {
+                return {
+                    show: false
+                }
+            },
+            template: `<div>   
+                            <h1>Capax</h1>
+                            <button @click='openCapax'>Open</button>
+                            <h1 v-show='show'>Hello Capax</h1>
+                       </div>`,
+            methods: {
+                openCapax() {
+                    this.show = true
+                }
+            }
+        })
+        Vue.component('opex', {
+            data() {
+                return {
+
+                }
+            },
+            template: `<h1>Opex</h1>`
+        })
+        var app = new Vue({
+            el: '#app',
+            data: {
+                navs: [{
+                    name: 'Capax',
+                    id: 1
+                }, {
+                    name: 'Opex',
+                    id: 2
+                }],
+                currentComponent: 'capax'
+            },
+            methods: {
+                changeComponent(item) {
+                    this.currentComponent = item.name.toLowerCase()
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
