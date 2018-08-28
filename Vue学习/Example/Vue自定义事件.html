@@ -24,6 +24,7 @@
         <base-checkbox v-model="lovingVue"></base-checkbox>
         <my-comp @click.native="doThis"></my-comp>
         <div @click="doThis">我是元素</div>
+        <!-- .sync修饰符是update的另一种写法，实现相同的效果 -->
         <text-document v-bind:show="doc.show" v-on:update:show="val => doc.show=val"></text-document>
         <text-document v-bind:show.sync="doc.show"></text-document>
         <button @click="openShow">Open</button>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+    <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <div id="app">
+        <slot-conponent>Fluently</slot-conponent>
+        <!-- 具名插槽 -->
+        <slot-name>
+            <template slot="header">
+                <h1>header</h1>
+            </template>
+            <template slot="footer">
+                <h1>footer</h1>
+            </template>
+            <template slot="main">
+                <h1>main</h1>
+            </template>
+            <template><h1>默认插槽</h1></template>
+        </slot-name>
+        <!-- 具名插槽另一种写法 -->
+        <slot-name>
+            <h1 slot="header">header</h1>
+            <h1 slot="footer">footer</h1>
+            <h1 slot="main">main</h1>
+            <h1>默认插槽</h1>
+        </slot-name>
+        <!-- 插槽默认值 -->
+        <slot-default></slot-default>
+        <slot-default>Modify</slot-default>
+        <!-- 插槽编译作用域 -->
+        <slot-scope>{{msg}}</slot-scope>
+        <!-- 访问出错，父级作用域模板不能访问子级数据 -->
+        <!-- <slot-scope>{{childMsg}}</slot-scope> -->
+
+
+        <!-- 作用域插槽 -->
+        <todo-list v-bind:todos="todos">
+            <!-- 将 `slotProps` 定义为插槽作用域的名字 -->
+            <template slot-scope="slotProps">
+                <!-- 为待办项自定义一个模板，-->
+                <!-- 通过 `slotProps` 定制每个待办项。-->
+                <span v-if="slotProps.todo.isComplete">✓</span>
+                {{ slotProps.todo.text }}
+            </template>
+        </todo-list>
+
+        <!-- 解构Slot -->
+        <todo-list v-bind:todos="todos">
+            <template slot-scope="{ todo }">
+                <span v-if="todo.isComplete">✓</span>
+                {{ todo.text }}
+            </template>
+        </todo-list>
+    </div>
+    <script src="../plugin/vue.js"></script>
+    <script>
+        Vue.component('slot-conponent', {
+            data() {
+                return {
+
+                }
+            },
+            template: `
+                <div>
+                    Hello <slot></slot>
+                </div>
+            `
+        })
+        Vue.component('slot-name', {
+            data() {
+                return {
+
+                }
+            },
+            template: `
+                <div>
+                    <header>
+                        <slot name="header"></slot>    
+                    </header>
+                    <main>
+                        <slot name="main"></slot>
+                    </main>
+                    <footer>
+                        <slot name="footer"></slot>
+                    </footer>
+                    <div>
+                        <slot></slot>
+                    </div>
+                </div>
+            `
+        })
+        Vue.component('slot-default', {
+            data() {
+                return {
+
+                }
+            },
+            template: `
+                <div>
+                    <slot>Default</slot>
+                </div>
+            `
+        })
+        Vue.component('slot-scope', {
+            data() {
+                return {
+                    childMsg: 'childScope'
+                }
+            },
+            template: `
+                <div>
+                    <slot>{{childMsg}}</slot>
+                </div>
+            `
+        })
+        Vue.component('todo-list', {
+            props: ['todos'],
+            data() {
+                return {
+
+                }
+            },
+            template: `<ul>
+                        <li v-for="todo in todos" v-bind:key="todo.id">
+                            <slot v-bind:todo="todo">
+                                <!-- 回退的内容 -->
+                                {{ todo.text }}
+                            </slot>
+                        </li>
+                      </ul>`
+        })
+        var app = new Vue({
+            el: '#app',
+            data: {
+                msg: 'Scope',
+                todos: [{
+                    text: 'Java',
+                    id: 1,
+                    isComplete: false
+                }, {
+                    text: 'JavaScript',
+                    id: 2,
+                    isComplete: true
+                }, {
+                    text: 'Vue',
+                    id: 3,
+                    isComplete: true
+                }]
+            }
+        })
+    </script>
+</body>
+
+</html>
