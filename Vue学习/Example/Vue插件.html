@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+    <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <div id="app">
+        <div v-my-directive></div>
+    </div>
+    <script src="../plugin/vue.js"></script>
+    <script>
+        var MyPlugin = {};
+        MyPlugin.install = function (Vue, options) {
+            // 1. 添加全局方法或属性
+            Vue.myGlobalMethod = function () {
+                console.log('myGlobalMethod')
+            }
+
+            // 2. 添加全局资源
+            Vue.directive('my-directive', {
+                bind(el, binding, vnode, oldVnode) {
+                    console.log('my-directive')
+                }
+            })
+
+            // 3. 注入组件
+            Vue.mixin({
+                created: function () {
+                    console.log('created')
+                }
+            })
+
+            // 4. 添加实例方法
+            Vue.prototype.$myMethod = function (methodOptions) {
+                console.log('$myMethod')
+            }
+        }
+        Vue.use(MyPlugin);
+        var app = new Vue({
+            el: '#app',
+            data: {},
+            mounted() {
+                Vue.myGlobalMethod()
+                this.$myMethod()
+            }
+        })
+    </script>
+</body>
+
+</html>
